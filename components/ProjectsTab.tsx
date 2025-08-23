@@ -273,6 +273,8 @@ export function ProjectsTab() {
 
             console.log(`📧 Envoi vers: ${recipient.email}`)
 
+            console.log(`📧 Tentative envoi vers: ${recipient.email}`)
+            
             const { data: result, error: invokeError } = await supabase.functions.invoke('send-email', {
               body: {
                 to: recipient.email,
@@ -282,8 +284,16 @@ export function ProjectsTab() {
               }
             })
 
+            console.log(`📊 Résultat fonction send-email pour ${recipient.email}:`, { result, invokeError })
+
             if (invokeError) {
-              throw new Error(invokeError.message)
+              console.error(`❌ Erreur invoke pour ${recipient.email}:`, invokeError)
+              throw new Error(`Erreur fonction send-email: ${invokeError.message}`)
+            }
+
+            if (!result) {
+              console.error(`❌ Aucun résultat pour ${recipient.email}`)
+              throw new Error('Aucun résultat retourné par la fonction send-email')
             }
             
             if (result.success) {
