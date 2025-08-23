@@ -273,25 +273,18 @@ export function ProjectsTab() {
 
             console.log(`📧 Envoi vers: ${recipient.email}`)
 
-            const response = await fetch(`https://wybhtprxiwgzmpmnfceq.supabase.co/functions/v1/send-email`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5Ymh0cHJ4aXdnem1wbW5mY2VxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEwMzIwODksImV4cCI6MjA2NjYwODA4OX0.ctFmwHC_iitVB16WB7lY616lIp0CAHBUGRaoi56ruqc`,
-              },
-              body: JSON.stringify({
+            const { data: result, error: invokeError } = await supabase.functions.invoke('send-email', {
+              body: {
                 to: recipient.email,
                 subject: personalizedSubject,
                 html: personalizedHtml,
                 text: personalizedText
-              })
+              }
             })
 
-            if (!response.ok) {
-              throw new Error(`HTTP ${response.status}: ${await response.text()}`)
+            if (invokeError) {
+              throw new Error(invokeError.message)
             }
-
-            const result = await response.json()
             
             if (result.success) {
               console.log(`✅ Email envoyé à ${recipient.email}: ${result.messageId}`)
