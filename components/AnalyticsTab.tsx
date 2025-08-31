@@ -13,6 +13,7 @@ import {
 } from "lucide-react"
 import { CommercialAnalytics } from './CommercialAnalytics'
 import { OriginAnalytics } from './analytics/OriginAnalytics'
+import { CommissionsAnalyticsTab } from './CommissionsAnalyticsTab'
 
 interface AnalyticsTabProps {
   stats: any
@@ -94,10 +95,14 @@ export function AnalyticsTab({
       </div>
 
       <Tabs defaultValue="overview" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="overview" className="flex items-center space-x-2">
             <BarChart3 className="w-4 h-4" />
             <span>Vue d'ensemble</span>
+          </TabsTrigger>
+          <TabsTrigger value="commissions" className="flex items-center space-x-2">
+            <DollarSign className="w-4 h-4" />
+            <span>Commissions</span>
           </TabsTrigger>
           <TabsTrigger value="origins" className="flex items-center space-x-2">
             <Target className="w-4 h-4" />
@@ -191,6 +196,10 @@ export function AnalyticsTab({
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="commissions">
+          <CommissionsAnalyticsTab />
         </TabsContent>
 
         <TabsContent value="origins">

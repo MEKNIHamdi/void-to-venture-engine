@@ -167,3 +167,56 @@ export interface AnalyticsData {
   }
   aiInsights: any[]
 }
+
+// Interface pour les calculs de commissions
+export interface CommissionCalculation {
+  id: string
+  projet_id: number
+  compagnie: string
+  cotisation_mensuelle: number
+  commission_annee1: number
+  commission_recurrente: number
+  taux_commission: number
+  date_creation: string
+  commercial?: string
+  statut?: 'success' | 'error' | 'pending'
+  message?: string
+}
+
+// Interface pour les statistiques de commissions
+export interface CommissionStats {
+  total_commissions_mensuelles: number
+  total_commissions_annuelles: number
+  total_commissions_recurrentes: number
+  commissions_par_compagnie: Record<string, {
+    commission_mensuelle: number
+    commission_annuelle: number
+    nombre_contrats: number
+    taux_commission: number
+    prime_totale_mensuelle?: number
+    prime_totale_annuelle?: number
+  }>
+  commissions_par_commercial: Record<string, {
+    commission_mensuelle: number
+    commission_annuelle: number
+    nombre_contrats: number
+    taux_commission: number
+  }>
+  evolution_mensuelle?: Record<string, number>
+  taux_reussite_calculs?: number
+  nombre_total_contrats?: number
+  date_derniere_mise_a_jour?: string
+}
+
+// Interface pour les configurations de commission
+export interface CommissionConfig {
+  id: string
+  compagnie: string
+  taux_annee1: number
+  taux_recurrent: number
+  seuil_minimum?: number
+  seuil_maximum?: number
+  active: boolean
+  date_creation: string
+  commercial_specifique?: string
+}
